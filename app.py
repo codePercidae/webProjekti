@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template, request, redirect
+import db
 
 app = Flask(__name__)
 
@@ -21,4 +22,5 @@ def create():
         return "Salasanat eivät täsmää!"
 
     else:
-        return "Tunnus luotu!"    
+        db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, password1])
+        return "Onnistui" 
