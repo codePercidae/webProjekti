@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -9,4 +9,16 @@ def index():
 
 @app.route("/signup")
 def signup():
-    return "Kirjautumissivu"
+    return render_template("signup.html")
+
+@app.route("/create", methods=["POST"])
+def create():
+    username = request.form["username"]
+    password1 = request.form["password1"]
+    password2 = request.form["password2"]
+
+    if password1 != password2:
+        return "Salasanat eivät täsmää!"
+
+    else:
+        return "Tunnus luotu!"    
