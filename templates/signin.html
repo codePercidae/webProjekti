@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<title>Luo tunnus</title>
+		<title>Kirjaudu sisään</title>
     </head>
 
     <body>
-        <h2>Luo tunnus</h2>
-		<p>{{ message }}</p>
-		<form action="/create" method="post">
+        <h2>Kirjaudu sisään</h2>
+        <p>{{message}}</p>
+		<form action="/verify" method="post">
 	    	<p>
 	        	Anna käyttäjätunnus:
 	        	<input type="text" name="username"/>
 	        	<br />
 				Anna salasana:
 				<input type="password" name="password1"/>
-				<br />
-				Anna salasana uudelleen:
-				<input type="password" name="password2"/>
 				<br />
 				<input type="submit" value="Lähetä"/>
 	    	</p>

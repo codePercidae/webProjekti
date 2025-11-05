@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Boulder-sovellus</title>
+		<title>Boulder Buddy</title>
 	</head>
 
 	<body>
 		<h1>Tervetuloa</h1>
-		<p>Kirjaudu sisään</p>
-		<form action="/result" method="post">
-			<p>
-			Käyttäjätunnus:
-			<input type="text" name="käyttäjätunnus"/>
-			<br>
-			Salasana: 
-			<input type="password" name="salasana"/>
-			<br>
+		<p>{{message}}</p>
+		<a href="/signin">Kirjaudu sisään</a>
+		<p>
 			Jos sinulla ei ole käyttäjätunnusta, luo sellainen
 			<a href="/signup">täällä</a>.
-			<p/>
-		</form>
+		</p>	
 	</body>
 </html>

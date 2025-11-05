@@ -12,6 +12,10 @@ def index():
 def signup():
     return render_template("signup.html")
 
+@app.route("/signin")
+def signin():
+    return render_template("signin.html")
+
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
@@ -19,8 +23,24 @@ def create():
     password2 = request.form["password2"]
 
     if password1 != password2:
-        return "Salasanat eivät täsmää!"
+        return render_template("signin.html", message="Salasanat eivät täsmää!")
 
-    else:
+    else: #uniikit käyttäjätunnukset
         db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, password1])
-        return "Onnistui" 
+        return render_template("index.html", message="Käyttäjätunnus luotu, ole hyvä ja kirjaudu sisään.")
+
+@app.route("/verify", methods=["POST"])
+def verify():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    check = db.query("SELECT password FROM users where user (?)", [username])
+    
+    if not check or check[0] != password:
+        return "incorrect credentials"
+    else:
+        return 'Kirjattu sisään käyttäjänä {username}.'
+
+
+
+    
