@@ -25,7 +25,7 @@ def create():
     if password1 != password2:
         return render_template("signin.html", message="Salasanat eivät täsmää!")
 
-    else: #uniikit käyttäjätunnukset
+    else:
         db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, password1])
         return render_template("index.html", message="Käyttäjätunnus luotu, ole hyvä ja kirjaudu sisään.")
 
@@ -34,12 +34,12 @@ def verify():
     username = request.form["username"]
     password = request.form["password"]
 
-    check = db.query("SELECT password FROM users where user (?)", [username])
-    
-    if not check or check[0] != password:
-        return "incorrect credentials"
+    check = db.query("SELECT password FROM users WHERE username = ?", [username])
+    print(check)
+    if not check or check[0]['password'] != password:
+        return render_template("signin.html", message="Virheelliset käyttäjätunnukset!")
     else:
-        return 'Kirjattu sisään käyttäjänä {username}.'
+        return redirect("/")
 
 
 
