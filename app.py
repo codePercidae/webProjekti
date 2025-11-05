@@ -1,8 +1,11 @@
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
+from werkzeug.security import check_password_hash, generate_password_hash
 import db
+import config
 
 app = Flask(__name__)
+app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
@@ -26,7 +29,8 @@ def create():
         return render_template("signin.html", message="Salasanat eivät täsmää!")
 
     else:
-        db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, password1])
+        phash = generate_password_hash(password1) 
+        db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, phash])
         return render_template("index.html", message="Käyttäjätunnus luotu, ole hyvä ja kirjaudu sisään.")
 
 @app.route("/verify", methods=["POST"])
@@ -34,12 +38,13 @@ def verify():
     username = request.form["username"]
     password = request.form["password"]
 
-    check = db.query("SELECT password FROM users WHERE username = ?", [username])
-    print(check)
-    if not check or check[0]['password'] != password:
-        return render_template("signin.html", message="Virheelliset käyttäjätunnukset!")
-    else:
+    res = db.query("SELECT id, password FROM users WHERE username = ?", [username])
+    if res and check_password_hash(res[0]['password'], password):
+        session['user'] = username
+        session['id'] = res[0]['id']
         return redirect("/")
+    else:
+        return render_template("signin.html", message="Virheelliset käyttäjätunnukset!")
 
 
 
