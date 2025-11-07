@@ -6,11 +6,19 @@
 
 	<body>
 		<h1>Tervetuloa</h1>
-		<p>{{message}}</p>
+		{% if session.user %}
+		<p>
+			Kirjattu sisään käyttäjänä {{session.user}}
+			<br />
+			<a href="/logout">Kirjaudu ulos</a>
+		</p>
+		
+		{% else %}
 		<a href="/signin">Kirjaudu sisään</a>
 		<p>
 			Jos sinulla ei ole käyttäjätunnusta, luo sellainen
 			<a href="/signup">täällä</a>.
-		</p>	
+		</p>
+		{% endif %}	
 	</body>
 </html>

@@ -19,6 +19,12 @@ def signup():
 def signin():
     return render_template("signin.html")
 
+@app.route("/logout")
+def logout():
+    del session["user"]
+    del session["id"]
+    return redirect("/")
+
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
