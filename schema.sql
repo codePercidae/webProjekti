@@ -13,11 +13,11 @@ CREATE TABLE routes (
 
 CREATE TABLE climbed (
     user_id INTEGER REFERENCES users,
-    route_id INTEGER REFERENCES routes
+    route_id INTEGER REFERENCES routes,
+    date TEXT
 );
 
 CREATE TABLE gyms (
     id INTEGER PRIMARY KEY,
     name TEXT
 );
-

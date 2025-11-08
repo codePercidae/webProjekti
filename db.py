@@ -14,8 +14,14 @@ def exec(sql, params=[]):
     g.last_insert_id = res.lastrowid
     db.close()
 
-def query(sql, params=[]):
+def query_all(sql, params=[]):
     db = get_connection()
     res = db.execute(sql, params).fetchall()
+    db.close()
+    return res
+
+def query_some(sql, params=[], amount):
+    db = get_connection()
+    res = db.execute(sql, params).fetchmany(amount)
     db.close()
     return res

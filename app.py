@@ -44,10 +44,11 @@ def verify():
     username = request.form["username"]
     password = request.form["password"]
 
-    res = db.query("SELECT id, password FROM users WHERE username = ?", [username])
+    res = db.query_all("SELECT id, password FROM users WHERE username = ?", [username])
     if res and check_password_hash(res[0]['password'], password):
         session['user'] = username
         session['id'] = res[0]['id']
+        #session['latest_routes'] = db.query_some("SELECT route_id FROM users WHERE user_id = ?", [session['id']], 10)
         return redirect("/")
     else:
         return render_template("signin.html", message="Virheelliset käyttäjätunnukset!")
