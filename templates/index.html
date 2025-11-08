@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 	<head>
 		<title>Boulder Buddy</title>
@@ -6,13 +7,18 @@
 
 	<body>
 		<h1>Tervetuloa</h1>
+		<p>{{message}}</p>
 		{% if session.user %}
 		<p>
 			Kirjattu sisään käyttäjänä {{session.user}}
 			<br />
 			<a href="/logout">Kirjaudu ulos</a>
 		</p>
-		
+		<h2>Viimeksi kiivetyt reitit</h2>
+		{% for route in session.routes %}
+			<li>{{route}}</li>
+		{% endfor %}
+
 		{% else %}
 		<a href="/signin">Kirjaudu sisään</a>
 		<p>

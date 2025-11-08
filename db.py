@@ -20,7 +20,7 @@ def query_all(sql, params=[]):
     db.close()
     return res
 
-def query_some(sql, params=[], amount):
+def query_some(sql, amount, params=[]):
     db = get_connection()
     res = db.execute(sql, params).fetchmany(amount)
     db.close()

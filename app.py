@@ -32,13 +32,16 @@ def create():
     password2 = request.form["password2"]
 
     if password1 != password2:
-        return render_template("signin.html", message="Salasanat eivät täsmää!")
+        return "Salasanat eivät täsmää!"
 
     else:
-        phash = generate_password_hash(password1) 
-        db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, phash])
-        return render_template("index.html", message="Käyttäjätunnus luotu, ole hyvä ja kirjaudu sisään.")
-
+        phash = generate_password_hash(password1)
+        try:
+            db.exec("INSERT INTO users (username, password) VALUES (?, ?)", [username, phash])
+            return "Käyttäjätunnus luotu, ole hyvä ja kirjaudu sisään."
+        except:
+            return "Käyttäjätunnus varattu!"
+        
 @app.route("/verify", methods=["POST"])
 def verify():
     username = request.form["username"]
@@ -51,8 +54,4 @@ def verify():
         #session['latest_routes'] = db.query_some("SELECT route_id FROM users WHERE user_id = ?", [session['id']], 10)
         return redirect("/")
     else:
-        return render_template("signin.html", message="Virheelliset käyttäjätunnukset!")
-
-
-
-    
+        return "Virheelliset käyttäjätunnukset!"
