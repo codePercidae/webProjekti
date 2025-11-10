@@ -55,3 +55,7 @@ def verify():
         return redirect("/")
     else:
         return "Virheelliset käyttäjätunnukset!"
+    
+@app.route("/add_route")
+def add_route():
+    return render_template("add_route.html")
